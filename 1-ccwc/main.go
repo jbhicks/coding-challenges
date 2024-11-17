@@ -37,12 +37,20 @@ func main() {
 }
 
 func characterCount(f *os.File) int {
-	count := 0
-	scanner := bufio.NewScanner(f)
-	for scanner.Scan() {
-		count += len(scanner.Text())
+	info, err := f.Stat()
+	if err != nil {
+		return -1
 	}
-	return count
+
+	// Create a buffer to read the file content
+	buffer := make([]byte, info.Size())
+	_, err = f.Read(buffer)
+	if err != nil {
+		return -1
+	}
+
+	// Return the length of the buffer, which represents the character count
+	return len(buffer)
 }
 
 func wordCount(f *os.File) int {
