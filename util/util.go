@@ -16,10 +16,13 @@ func PrettyPrint(v interface{}) {
 	fmt.Println(string(b))
 }
 
-func GetFileContent(filePath string) string {
+// Gets the string content of a file defined by the path parameter
+func GetFileContent(filePath string) (string, error) {
 	data, err := os.ReadFile(filePath)
-	Check(err, false)
-	return string(data)
+	if err != nil {
+		return "", err
+	}
+	return string(data), nil
 }
 
 // Reusable error checking function
